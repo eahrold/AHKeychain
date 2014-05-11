@@ -7,38 +7,107 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE115D11191117A800CB7530 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE115D10191117A800CB7530 /* Foundation.framework */; };
-		BE115D14191117A800CB7530 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BE115D13191117A800CB7530 /* main.m */; };
-		BE115D18191117A800CB7530 /* AHKeychain.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BE115D17191117A800CB7530 /* AHKeychain.1 */; };
+		BE3CE87A1918FEA700150E3A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE3CE8791918FEA700150E3A /* Cocoa.framework */; };
+		BE3CE8841918FEA700150E3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE3CE8821918FEA700150E3A /* InfoPlist.strings */; };
+		BE3CE8861918FEA700150E3A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3CE8851918FEA700150E3A /* main.m */; };
+		BE3CE88A1918FEA700150E3A /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BE3CE8881918FEA700150E3A /* Credits.rtf */; };
+		BE3CE88D1918FEA700150E3A /* AHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3CE88C1918FEA700150E3A /* AHAppDelegate.m */; };
+		BE3CE8901918FEA700150E3A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE3CE88E1918FEA700150E3A /* MainMenu.xib */; };
+		BE3CE8921918FEA700150E3A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE3CE8911918FEA700150E3A /* Images.xcassets */; };
+		BE3CE8981918FEA700150E3A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE3CE8541918286600150E3A /* XCTest.framework */; };
+		BE3CE8991918FEA700150E3A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE3CE8791918FEA700150E3A /* Cocoa.framework */; };
+		BE3CE8A11918FEA700150E3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE3CE89F1918FEA700150E3A /* InfoPlist.strings */; };
+		BE3CE8A31918FEA700150E3A /* AHKeychain_OSXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3CE8A21918FEA700150E3A /* AHKeychain_OSXTests.m */; };
+		BE883D211918FED5008AAA52 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE115D21191118EA00CB7530 /* Security.framework */; };
+		BE883D221918FEDD008AAA52 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE115D21191118EA00CB7530 /* Security.framework */; };
+		BED8C25E191BAB78006BDDB3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE115D10191117A800CB7530 /* Foundation.framework */; };
+		BED8C261191BAB78006BDDB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BED8C260191BAB78006BDDB3 /* main.m */; };
+		BED8C269191BAB81006BDDB3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE115D21191118EA00CB7530 /* Security.framework */; };
+		BED8C26A191BAB86006BDDB3 /* AHKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = BED8C254191AF9C5006BDDB3 /* AHKeychain.m */; };
+		BED8C26B191BAB89006BDDB3 /* AHKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BE115D2B1911687900CB7530 /* AHKeychainItem.m */; };
+		BED8C26C191BBB89006BDDB3 /* AHKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = BED8C254191AF9C5006BDDB3 /* AHKeychain.m */; };
+		BED8C26D191BBB89006BDDB3 /* AHKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = BE115D2B1911687900CB7530 /* AHKeychainItem.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		BE3CE89A1918FEA700150E3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE115D05191117A800CB7530 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE3CE8771918FEA600150E3A;
+			remoteInfo = "AHKeychain-OSX";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		BE115D0B191117A800CB7530 /* CopyFiles */ = {
+		BED8C25B191BAB78006BDDB3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				BE115D18191117A800CB7530 /* AHKeychain.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BE115D0D191117A800CB7530 /* AHKeychain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AHKeychain; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE115D10191117A800CB7530 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		BE115D13191117A800CB7530 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		BE115D16191117A800CB7530 /* AHKeychain-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AHKeychain-Prefix.pch"; sourceTree = "<group>"; };
-		BE115D17191117A800CB7530 /* AHKeychain.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = AHKeychain.1; sourceTree = "<group>"; };
+		BE115D21191118EA00CB7530 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		BE115D2A1911687900CB7530 /* AHKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHKeychainItem.h; path = AHKeychain/AHKeychainItem.h; sourceTree = "<group>"; };
+		BE115D2B1911687900CB7530 /* AHKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AHKeychainItem.m; path = AHKeychain/AHKeychainItem.m; sourceTree = "<group>"; };
+		BE3CE8541918286600150E3A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		BE3CE8781918FEA600150E3A /* AHKeychain-OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AHKeychain-OSX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE3CE8791918FEA700150E3A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BE3CE87C1918FEA700150E3A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		BE3CE87D1918FEA700150E3A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		BE3CE87E1918FEA700150E3A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BE3CE8811918FEA700150E3A /* AHKeychain-OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AHKeychain-OSX-Info.plist"; sourceTree = "<group>"; };
+		BE3CE8831918FEA700150E3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE3CE8851918FEA700150E3A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BE3CE8871918FEA700150E3A /* AHKeychain-OSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AHKeychain-OSX-Prefix.pch"; sourceTree = "<group>"; };
+		BE3CE8891918FEA700150E3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		BE3CE88B1918FEA700150E3A /* AHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AHAppDelegate.h; sourceTree = "<group>"; };
+		BE3CE88C1918FEA700150E3A /* AHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AHAppDelegate.m; sourceTree = "<group>"; };
+		BE3CE88F1918FEA700150E3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BE3CE8911918FEA700150E3A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BE3CE8971918FEA700150E3A /* AHKeychain-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AHKeychain-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE3CE89E1918FEA700150E3A /* AHKeychain-OSXTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AHKeychain-OSXTests-Info.plist"; sourceTree = "<group>"; };
+		BE3CE8A01918FEA700150E3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE3CE8A21918FEA700150E3A /* AHKeychain_OSXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AHKeychain_OSXTests.m; sourceTree = "<group>"; };
+		BED8C253191AF9C5006BDDB3 /* AHKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AHKeychain.h; path = AHKeychain/AHKeychain.h; sourceTree = "<group>"; };
+		BED8C254191AF9C5006BDDB3 /* AHKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AHKeychain.m; path = AHKeychain/AHKeychain.m; sourceTree = "<group>"; };
+		BED8C25D191BAB78006BDDB3 /* ahkeychaintest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ahkeychaintest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BED8C260191BAB78006BDDB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BED8C263191BAB78006BDDB3 /* ahkeychaintest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ahkeychaintest-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BE115D0A191117A800CB7530 /* Frameworks */ = {
+		BE3CE8751918FEA600150E3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE115D11191117A800CB7530 /* Foundation.framework in Frameworks */,
+				BE883D221918FEDD008AAA52 /* Security.framework in Frameworks */,
+				BE3CE87A1918FEA700150E3A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE3CE8941918FEA700150E3A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE883D211918FED5008AAA52 /* Security.framework in Frameworks */,
+				BE3CE8991918FEA700150E3A /* Cocoa.framework in Frameworks */,
+				BE3CE8981918FEA700150E3A /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BED8C25A191BAB78006BDDB3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BED8C269191BAB81006BDDB3 /* Security.framework in Frameworks */,
+				BED8C25E191BAB78006BDDB3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +117,13 @@
 		BE115D04191117A800CB7530 = {
 			isa = PBXGroup;
 			children = (
-				BE115D12191117A800CB7530 /* AHKeychain */,
+				BED8C253191AF9C5006BDDB3 /* AHKeychain.h */,
+				BED8C254191AF9C5006BDDB3 /* AHKeychain.m */,
+				BE115D2A1911687900CB7530 /* AHKeychainItem.h */,
+				BE115D2B1911687900CB7530 /* AHKeychainItem.m */,
+				BE3CE87F1918FEA700150E3A /* AHKeychain-OSX */,
+				BE3CE89C1918FEA700150E3A /* AHKeychain-OSXTests */,
+				BED8C25F191BAB78006BDDB3 /* ahkeychaintest */,
 				BE115D0F191117A800CB7530 /* Frameworks */,
 				BE115D0E191117A800CB7530 /* Products */,
 			);
@@ -57,7 +132,9 @@
 		BE115D0E191117A800CB7530 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BE115D0D191117A800CB7530 /* AHKeychain */,
+				BE3CE8781918FEA600150E3A /* AHKeychain-OSX.app */,
+				BE3CE8971918FEA700150E3A /* AHKeychain-OSXTests.xctest */,
+				BED8C25D191BAB78006BDDB3 /* ahkeychaintest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,25 +142,80 @@
 		BE115D0F191117A800CB7530 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BE115D21191118EA00CB7530 /* Security.framework */,
 				BE115D10191117A800CB7530 /* Foundation.framework */,
+				BE3CE8541918286600150E3A /* XCTest.framework */,
+				BE3CE8791918FEA700150E3A /* Cocoa.framework */,
+				BE3CE87B1918FEA700150E3A /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BE115D12191117A800CB7530 /* AHKeychain */ = {
+		BE3CE87B1918FEA700150E3A /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BE115D13191117A800CB7530 /* main.m */,
-				BE115D17191117A800CB7530 /* AHKeychain.1 */,
-				BE115D15191117A800CB7530 /* Supporting Files */,
+				BE3CE87C1918FEA700150E3A /* AppKit.framework */,
+				BE3CE87D1918FEA700150E3A /* CoreData.framework */,
+				BE3CE87E1918FEA700150E3A /* Foundation.framework */,
 			);
-			path = AHKeychain;
+			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		BE115D15191117A800CB7530 /* Supporting Files */ = {
+		BE3CE87F1918FEA700150E3A /* AHKeychain-OSX */ = {
 			isa = PBXGroup;
 			children = (
-				BE115D16191117A800CB7530 /* AHKeychain-Prefix.pch */,
+				BE3CE88B1918FEA700150E3A /* AHAppDelegate.h */,
+				BE3CE88C1918FEA700150E3A /* AHAppDelegate.m */,
+				BE3CE88E1918FEA700150E3A /* MainMenu.xib */,
+				BE3CE8911918FEA700150E3A /* Images.xcassets */,
+				BE3CE8801918FEA700150E3A /* Supporting Files */,
+			);
+			path = "AHKeychain-OSX";
+			sourceTree = "<group>";
+		};
+		BE3CE8801918FEA700150E3A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE3CE8811918FEA700150E3A /* AHKeychain-OSX-Info.plist */,
+				BE3CE8821918FEA700150E3A /* InfoPlist.strings */,
+				BE3CE8851918FEA700150E3A /* main.m */,
+				BE3CE8871918FEA700150E3A /* AHKeychain-OSX-Prefix.pch */,
+				BE3CE8881918FEA700150E3A /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BE3CE89C1918FEA700150E3A /* AHKeychain-OSXTests */ = {
+			isa = PBXGroup;
+			children = (
+				BE3CE8A21918FEA700150E3A /* AHKeychain_OSXTests.m */,
+				BE3CE89D1918FEA700150E3A /* Supporting Files */,
+			);
+			path = "AHKeychain-OSXTests";
+			sourceTree = "<group>";
+		};
+		BE3CE89D1918FEA700150E3A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE3CE89E1918FEA700150E3A /* AHKeychain-OSXTests-Info.plist */,
+				BE3CE89F1918FEA700150E3A /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BED8C25F191BAB78006BDDB3 /* ahkeychaintest */ = {
+			isa = PBXGroup;
+			children = (
+				BED8C260191BAB78006BDDB3 /* main.m */,
+				BED8C262191BAB78006BDDB3 /* Supporting Files */,
+			);
+			path = ahkeychaintest;
+			sourceTree = "<group>";
+		};
+		BED8C262191BAB78006BDDB3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BED8C263191BAB78006BDDB3 /* ahkeychaintest-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -91,21 +223,56 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BE115D0C191117A800CB7530 /* AHKeychain */ = {
+		BE3CE8771918FEA600150E3A /* AHKeychain-OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BE115D1B191117A800CB7530 /* Build configuration list for PBXNativeTarget "AHKeychain" */;
+			buildConfigurationList = BE3CE8A41918FEA700150E3A /* Build configuration list for PBXNativeTarget "AHKeychain-OSX" */;
 			buildPhases = (
-				BE115D09191117A800CB7530 /* Sources */,
-				BE115D0A191117A800CB7530 /* Frameworks */,
-				BE115D0B191117A800CB7530 /* CopyFiles */,
+				BE3CE8741918FEA600150E3A /* Sources */,
+				BE3CE8751918FEA600150E3A /* Frameworks */,
+				BE3CE8761918FEA600150E3A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = AHKeychain;
-			productName = AHKeychain;
-			productReference = BE115D0D191117A800CB7530 /* AHKeychain */;
+			name = "AHKeychain-OSX";
+			productName = "AHKeychain-OSX";
+			productReference = BE3CE8781918FEA600150E3A /* AHKeychain-OSX.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BE3CE8961918FEA700150E3A /* AHKeychain-OSXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE3CE8A71918FEA700150E3A /* Build configuration list for PBXNativeTarget "AHKeychain-OSXTests" */;
+			buildPhases = (
+				BE3CE8931918FEA700150E3A /* Sources */,
+				BE3CE8941918FEA700150E3A /* Frameworks */,
+				BE3CE8951918FEA700150E3A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE3CE89B1918FEA700150E3A /* PBXTargetDependency */,
+			);
+			name = "AHKeychain-OSXTests";
+			productName = "AHKeychain-OSXTests";
+			productReference = BE3CE8971918FEA700150E3A /* AHKeychain-OSXTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		BED8C25C191BAB78006BDDB3 /* ahkeychaintest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BED8C266191BAB78006BDDB3 /* Build configuration list for PBXNativeTarget "ahkeychaintest" */;
+			buildPhases = (
+				BED8C259191BAB78006BDDB3 /* Sources */,
+				BED8C25A191BAB78006BDDB3 /* Frameworks */,
+				BED8C25B191BAB78006BDDB3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ahkeychaintest;
+			productName = ahkeychaintest;
+			productReference = BED8C25D191BAB78006BDDB3 /* ahkeychaintest */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -116,6 +283,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Eldon Ahrold";
+				TargetAttributes = {
+					BE3CE8961918FEA700150E3A = {
+						TestTargetID = BE3CE8771918FEA600150E3A;
+					};
+				};
 			};
 			buildConfigurationList = BE115D08191117A800CB7530 /* Build configuration list for PBXProject "AHKeychain" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -123,27 +295,116 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = BE115D04191117A800CB7530;
 			productRefGroup = BE115D0E191117A800CB7530 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BE115D0C191117A800CB7530 /* AHKeychain */,
+				BE3CE8771918FEA600150E3A /* AHKeychain-OSX */,
+				BE3CE8961918FEA700150E3A /* AHKeychain-OSXTests */,
+				BED8C25C191BAB78006BDDB3 /* ahkeychaintest */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		BE3CE8761918FEA600150E3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE3CE8841918FEA700150E3A /* InfoPlist.strings in Resources */,
+				BE3CE8921918FEA700150E3A /* Images.xcassets in Resources */,
+				BE3CE88A1918FEA700150E3A /* Credits.rtf in Resources */,
+				BE3CE8901918FEA700150E3A /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE3CE8951918FEA700150E3A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE3CE8A11918FEA700150E3A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		BE115D09191117A800CB7530 /* Sources */ = {
+		BE3CE8741918FEA600150E3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE115D14191117A800CB7530 /* main.m in Sources */,
+				BED8C26C191BBB89006BDDB3 /* AHKeychain.m in Sources */,
+				BED8C26D191BBB89006BDDB3 /* AHKeychainItem.m in Sources */,
+				BE3CE88D1918FEA700150E3A /* AHAppDelegate.m in Sources */,
+				BE3CE8861918FEA700150E3A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE3CE8931918FEA700150E3A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE3CE8A31918FEA700150E3A /* AHKeychain_OSXTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BED8C259191BAB78006BDDB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BED8C261191BAB78006BDDB3 /* main.m in Sources */,
+				BED8C26A191BAB86006BDDB3 /* AHKeychain.m in Sources */,
+				BED8C26B191BAB89006BDDB3 /* AHKeychainItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE3CE89B1918FEA700150E3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE3CE8771918FEA600150E3A /* AHKeychain-OSX */;
+			targetProxy = BE3CE89A1918FEA700150E3A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BE3CE8821918FEA700150E3A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE3CE8831918FEA700150E3A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BE3CE8881918FEA700150E3A /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE3CE8891918FEA700150E3A /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		BE3CE88E1918FEA700150E3A /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE3CE88F1918FEA700150E3A /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BE3CE89F1918FEA700150E3A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE3CE8A01918FEA700150E3A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BE115D19191117A800CB7530 /* Debug */ = {
@@ -214,20 +475,98 @@
 			};
 			name = Release;
 		};
-		BE115D1C191117A800CB7530 /* Debug */ = {
+		BE3CE8A51918FEA700150E3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AHKeychain/AHKeychain-Prefix.pch";
+				GCC_PREFIX_HEADER = "AHKeychain-OSX/AHKeychain-OSX-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "AHKeychain-OSX/AHKeychain-OSX-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BE3CE8A61918FEA700150E3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AHKeychain-OSX/AHKeychain-OSX-Prefix.pch";
+				INFOPLIST_FILE = "AHKeychain-OSX/AHKeychain-OSX-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BE3CE8A81918FEA700150E3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AHKeychain-OSX.app/Contents/MacOS/AHKeychain-OSX";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AHKeychain-OSX/AHKeychain-OSX-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "AHKeychain-OSXTests/AHKeychain-OSXTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		BE3CE8A91918FEA700150E3A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AHKeychain-OSX.app/Contents/MacOS/AHKeychain-OSX";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AHKeychain-OSX/AHKeychain-OSX-Prefix.pch";
+				INFOPLIST_FILE = "AHKeychain-OSXTests/AHKeychain-OSXTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		BED8C267191BAB78006BDDB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ahkeychaintest/ahkeychaintest-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		BE115D1D191117A800CB7530 /* Release */ = {
+		BED8C268191BAB78006BDDB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AHKeychain/AHKeychain-Prefix.pch";
+				GCC_PREFIX_HEADER = "ahkeychaintest/ahkeychaintest-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -244,13 +583,32 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BE115D1B191117A800CB7530 /* Build configuration list for PBXNativeTarget "AHKeychain" */ = {
+		BE3CE8A41918FEA700150E3A /* Build configuration list for PBXNativeTarget "AHKeychain-OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BE115D1C191117A800CB7530 /* Debug */,
-				BE115D1D191117A800CB7530 /* Release */,
+				BE3CE8A51918FEA700150E3A /* Debug */,
+				BE3CE8A61918FEA700150E3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BE3CE8A71918FEA700150E3A /* Build configuration list for PBXNativeTarget "AHKeychain-OSXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE3CE8A81918FEA700150E3A /* Debug */,
+				BE3CE8A91918FEA700150E3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BED8C266191BAB78006BDDB3 /* Build configuration list for PBXNativeTarget "ahkeychaintest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BED8C267191BAB78006BDDB3 /* Debug */,
+				BED8C268191BAB78006BDDB3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
