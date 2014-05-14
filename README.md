@@ -1,5 +1,5 @@
 ##AHKeychain
-###Objective-c Class for working accessing OSX keychains and keychain items.
+###Objective-c Class for managing OSX keychains and keychain items.
 
 _This is project is a derivative of SSKeychain https://github.com/soffes/sskeychain/_
 
@@ -65,14 +65,14 @@ _*to write to this keychain you application needs to run as root_
     [keychain deleteItem:item error:&error];
 ```
 
-#####And finally to remove the keychain file a keychain. It's Destructive.  
-_*you cannot delete either the login keychain or the system keychain_
+#####And finally to remove the keychain file. It's Destructive!  
+_*you calling this method on either the login keychain or the system keychain will fail_
 ```Objective-c  
 	[keychain deleteKeychain];
 ```
 ====
 
-##Class Methods for connivence
+##Class Methods for convenience
 _you can specify kAHKeychainLoginKeychain, kAHKeychainSystemKeychain, or a full path to the keychain_
 #####Setting a password
 ```Objective-c  
