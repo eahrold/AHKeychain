@@ -52,6 +52,14 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 #pragma mark - Modifying Keychain
 
 #pragma mark -- Initializers --
+-(instancetype)initWithKeychain:(NSString*)name{
+    self = [super init];
+    if(self){
+        self.name = name;
+    }
+    return self;
+}
+
 -(instancetype)initCreatingNewKeychainAtPath:(NSString *)path
                                       domain:(AHKeychainDomain)domain
                                     password:(NSString *)password
