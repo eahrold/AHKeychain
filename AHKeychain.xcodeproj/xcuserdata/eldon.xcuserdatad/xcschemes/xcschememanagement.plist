@@ -4,15 +4,40 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AHKeychain.xcscheme</key>
+		<key>AHKeychain-OSX.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>ahkeychaintest.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>BE115D0C191117A800CB7530</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BE3CE8521918286600150E3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BE3CE8771918FEA600150E3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BE3CE8961918FEA700150E3A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BED8C25C191BAB78006BDDB3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
