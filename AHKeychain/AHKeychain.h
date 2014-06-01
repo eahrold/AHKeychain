@@ -52,8 +52,8 @@ extern NSString *const kAHKeychainLoginKeychain;
 @interface AHKeychain : NSObject
 
 /**
- *  Name of or full path to keychain. kSecUseKeychain
- *  @discussion if setting full path, include .keychain extension
+ *  Name of, or full path to, keychain. kSecUseKeychain
+ *  @discussion if setting full path, include .keychain file extension
  */
 @property (copy,nonatomic) NSString *name;
 
@@ -76,21 +76,32 @@ extern NSString *const kAHKeychainLoginKeychain;
 
 #pragma mark - Modifying Keychain
 /**
+ *  Initialize keychain object to work with
+ *
+ *  @param name Name of, or full path to, keychain. kSecUseKeychain
+ *  @discussion if setting full path, include .keychain file extension
+ *
+ *  @return initialized AHKeychain object ready for modification
+ */
+-(instancetype)initWithKeychain:(NSString*)name;
+
+/**
  *  Create a new keychain at a path using password
  *
  *  @param path     full path where keychain should be created
  *  @param password password for the newly created keychain
  *
- *  @return A new AHKeychain that you can start adding items to.
+ *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
 -(instancetype)initCreatingNewKeychainAtPath:(NSString*)path password:(NSString*)password;
+
 /**
- *  Create a new keychain at a path and prompt for password
+ *  Create a new keychain at a path and display cocoa dialog prompting for password
  *
  *  @param path full path where keychain should be created
  *
- *  @return A new AHKeychain that you can start adding items to.
+ *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
 -(instancetype)initCreatingNewKeychainAtPath:(NSString*)path;
@@ -107,7 +118,7 @@ extern NSString *const kAHKeychainLoginKeychain;
 -(instancetype)initCreatingNewKeychain:(NSString*)name password:(NSString*)password;
 
 /**
- *  Create a new user keychain and prompt for password
+ *  Create a new user keychain and display cocoa dialog prompting for password
  *
  *  @param name name of the new keychain
  *
