@@ -64,7 +64,8 @@
 - (void)testAddToSystemKeychainAsNonRoot
 {
     NSError *error;
-    XCTAssertFalse([[AHKeychain systemKeychain] saveItem:item error:&error], @"Unable to save item: %@", error);
+    XCTAssertFalse([[AHKeychain systemKeychain] saveItem:item error:&error]);
+    if(error) NSLog(@"%@",error);
 }
 
 - (void)testAdd
