@@ -1,5 +1,5 @@
 ##AHKeychain
-###Objective-c Class for managing OSX keychains and keychain items.
+####Objective-c Class for managing OSX keychains and keychain items.
 
 _This is project is a derivative of SSKeychain https://github.com/soffes/sskeychain/_
 
@@ -16,29 +16,29 @@ There are four enhancements of this project
 
 
 ##Working with a specific keychain.
-###To specify the default login keychain
+#####To specify the default login keychain
 ```Objective-c
 AHKeychain *keychain = [AHKeychain loginKeychain];
 ```
-###To specify the system keychain  
-_*to write to this keychain you application needs to run as root_
+#####To specify the system keychain  
+_to write to this keychain you application must run as root_
 
 ```Objective-c    
 AHKeychain *keychain = [AHKeychain systemKeychain];
 ```
 
-###To specify a keychain at a particular path (external drive)
+#####To specify a keychain at a particular path (external drive)
 ```Objective-c    
 AHKeychain *keychain = [AHKeychain keychainAtPath:@"/Volumes/MyExternalHD/Library/Keychains/myextkc.keychain"];
 ```
 
-###To create a new user keychain
+#####To create a new user keychain
 ```Objective-c  
 AHKeychain *keychain = [AHKeychain alloc]initCreatingNewKeychain:@"Test Keychain"
 													password:@"realfakepsswd"];
 ```
 
-###To remove the keychain file. It's Destructive!  
+#####To remove the keychain file. It's Destructive!  
 _*calling this method on either the login keychain or the system keychain will fail_
 ```Objective-c  
 [keychain deleteKeychain];
@@ -46,7 +46,7 @@ _*calling this method on either the login keychain or the system keychain will f
 
 ##Modifying a keychain item.
 
-###To add/update an item
+#####To add/update an item
 ```Objective-c  
 AHKeychainItem *item = [AHkeychainItem alloc] init];
 item.service = @"com.eeaapps.test";
@@ -64,7 +64,7 @@ item.trustedApplications = trustedApps;
 
 ```
 
-###To get an item's password
+#####To get an item's password
 ```Objective-c  
 AHKeychainItem *item = [AHkeychainItem alloc] init];
 item.service = @"com.eeaapps.test";
@@ -75,7 +75,7 @@ item.account = @"myusername";
 NSLog(@"The Password is %@",item.password);
 ```
 
-###To remove a keychain item 
+#####To remove a keychain item 
 ```Objective-c  
 AHKeychainItem *item = [AHkeychainItem alloc] init];
 item.service = @"com.eeaapps.test";
@@ -113,5 +113,5 @@ NSLog(@"The Password is %@",item.password);
 ```
 
 ---
-_See AHKeychain.h and AHKeychainItem.h for more info_
+_See AHKeychain.h and AHKeychainItem.h for more info._
 
