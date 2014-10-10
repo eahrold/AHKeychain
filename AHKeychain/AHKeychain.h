@@ -5,7 +5,7 @@
 //  Created by Eldon Ahrold on 5/7/14.
 //  https://github.com/eahrold/ahkeychain/
 //
-// This class is a derivative of SSKeychain https://github.com/soffes/sskeychain/
+// This project is a derivative of SSKeychain https://github.com/soffes/sskeychain/
 // And released under the same license.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,8 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.//
+// THE SOFTWARE.
+//
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -33,18 +34,18 @@
 
 typedef NS_ENUM(int, AHKeychainDomain) {
     kAHKeychainDomainNotSet = -1,
-	/** Indicates the user preference domain preferences. */
-	kAHKeychainDomainUser = kSecPreferencesDomainUser,
-    
+    /** Indicates the user preference domain preferences. */
+    kAHKeychainDomainUser = kSecPreferencesDomainUser,
+
     /** Indicates the system preference domain preferences. */
     kAHKeychainDomainSystem = kSecPreferencesDomainSystem,
-    
+
     /** Indicates the shared preference domain preferences. */
     kAHKeychainDomainShared = kSecPreferencesDomainCommon,
-    
+
     /** Indicates Indicates a dynamic search list.  */
-	kAHKeychainDomainDynamic = kSecPreferencesDomainDynamic,
-} ;
+    kAHKeychainDomainDynamic = kSecPreferencesDomainDynamic,
+};
 
 extern NSString *const kAHKeychainSystemKeychain;
 extern NSString *const kAHKeychainLoginKeychain;
@@ -55,7 +56,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  Name of, or full path to, keychain. kSecUseKeychain
  *  @discussion if setting full path, include .keychain file extension
  */
-@property (copy,nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *name;
 
 /**
  *  search domain used to locate keychains
@@ -64,15 +65,14 @@ extern NSString *const kAHKeychainLoginKeychain;
 
 /**
  *  status return of the last executed method.
- *  @discussion this is usefull for seeing the result of initializer methods. See initializer methods for more info.
+ *  @discussion this is useful for seeing the result of initializer methods. See initializer methods for more info.
  */
-@property (nonatomic,readonly) OSStatus keychainStatus;
+@property (nonatomic, readonly) OSStatus keychainStatus;
 
 /**
  *  a description of the current keychainStatus
  */
-@property (copy,nonatomic,readonly) NSString *statusDescription;
-
+@property (copy, nonatomic, readonly) NSString *statusDescription;
 
 #pragma mark - Modifying Keychain
 /**
@@ -83,7 +83,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return initialized AHKeychain object ready for modification
  */
--(instancetype)initWithKeychain:(NSString*)name;
+- (instancetype)initWithKeychain:(NSString *)name;
 
 /**
  *  Create a new keychain at a path using password
@@ -94,7 +94,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
--(instancetype)initCreatingNewKeychainAtPath:(NSString*)path password:(NSString*)password;
+- (instancetype)initCreatingNewKeychainAtPath:(NSString *)path password:(NSString *)password;
 
 /**
  *  Create a new keychain at a path and display cocoa dialog prompting for password
@@ -104,7 +104,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
--(instancetype)initCreatingNewKeychainAtPath:(NSString*)path;
+- (instancetype)initCreatingNewKeychainAtPath:(NSString *)path;
 
 /**
  *  Create a new user keychain
@@ -115,7 +115,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return A new AHKeychain that you can start adding items to.
  *  @discussion if a keychain with the name already exists the object returned will be that, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
--(instancetype)initCreatingNewKeychain:(NSString*)name password:(NSString*)password;
+- (instancetype)initCreatingNewKeychain:(NSString *)name password:(NSString *)password;
 
 /**
  *  Create a new user keychain and display cocoa dialog prompting for password
@@ -125,8 +125,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return A new AHKeychain that you can start adding items to.
  *  @discussion if a keychain with the name already exists the object returned will be that, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
  */
--(instancetype)initCreatingNewKeychain:(NSString*)name;
-
+- (instancetype)initCreatingNewKeychain:(NSString *)name;
 
 /**
  *  Change the password for the Keychain.
@@ -137,7 +136,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return YES on success, NO on failure
  */
--(BOOL)changeKeychainPassword:(NSString*)oldpass to:(NSString*)newpass error:(NSError**)error;
+- (BOOL)changeKeychainPassword:(NSString *)oldpass to:(NSString *)newpass error:(NSError **)error;
 
 /**
  *  delete the Keychain.
@@ -146,7 +145,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return YES on success, NO on failure
  */
--(BOOL)deleteKeychain:(NSError**)error;
+- (BOOL)deleteKeychain:(NSError **)error;
 
 #pragma mark - Modifying Keychain Items
 /**
@@ -157,7 +156,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return YES on success, NO on failure
  */
--(BOOL)saveItem:(AHKeychainItem *)item error:(NSError**)error;
+- (BOOL)saveItem:(AHKeychainItem *)item error:(NSError **)error;
 /**
  *  remove an item from the keychain
  *
@@ -166,7 +165,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return YES on success, NO on failure
  */
--(BOOL)deleteItem:(AHKeychainItem *)item error:(NSError**)error;
+- (BOOL)deleteItem:(AHKeychainItem *)item error:(NSError **)error;
 /**
  *  populate a AHKeychainItem with it's password data
  *
@@ -176,7 +175,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return YES on success, NO on failure
  *  @discussion if return is YES, you can get the password data by accessing item.password
  */
--(BOOL)getItem:(AHKeychainItem *)item error:(NSError**)error;
+- (BOOL)getItem:(AHKeychainItem *)item error:(NSError **)error;
 
 /**
  *  test wether a specific keychain item exists in the current keychain
@@ -186,7 +185,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return YES if the keychain item exists, NO if not
  */
--(BOOL)findItem:(AHKeychainItem *)item error:(NSError**)error;
+- (BOOL)findItem:(AHKeychainItem *)item error:(NSError **)error;
 /**
  *  get all items in the current keychain
  *
@@ -194,44 +193,42 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return Array of all items in keychain
  */
--(NSArray*)findAllItems:(NSError**)error;
+- (NSArray *)findAllItems:(NSError **)error;
 
-#pragma mark - Convience Initializers
+#pragma mark - Convenience Initializers
 /**
- *  Convience initializer for the "login" keychain in the user's home directory.
+ *  Convenience initializer for the "login" keychain in the user's home directory.
  *
  *  @return the default user keychain
  *  @discussion This is not a singleton.  If performing multiple actions on a keychain create an instance using this.
  */
-+(AHKeychain*)loginKeychain;
++ (AHKeychain *)loginKeychain;
 
 /**
- *  Convience initializer for the /Library/Keychains/System.keychain
+ *  Convenience initializer for the /Library/Keychains/System.keychain
  *
  *  @return the system keychain
  *  @discussion This is not a singleton.  If performing multiple actions on a keychain create an instance using this.
  */
-+(AHKeychain*)systemKeychain;
++ (AHKeychain *)systemKeychain;
 
 /**
- *  Convience initializer for a keychain at a specific path
+ *  Convenience initializer for a keychain at a specific path
  *
  *  @param path full path to the keychain file including the .keychain extension
  *
  *  @return keychain at the path
  *  @discussion This is not a singleton.  If performing multiple actions on a keychain create an instance using this.
  */
-+(AHKeychain*)keychainAtPath:(NSString*)path;
++ (AHKeychain *)keychainAtPath:(NSString *)path;
 
 #pragma mark - Class Methods
-+(BOOL)setPassword:(NSString*)password service:(NSString*)service account:(NSString*)account keychain:(NSString*)keycahin trustedApps:(NSArray*)trustedApps error:(NSError**)error;
++ (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain trustedApps:(NSArray *)trustedApps error:(NSError **)error;
 
-+(BOOL)setPassword:(NSString*)password service:(NSString*)service account:(NSString*)account keychain:(NSString*)keycahin error:(NSError**)error;
++ (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
-+(NSString*)getPasswordForService:(NSString*)service account:(NSString*)account keychain:(NSString*)keycahin error:(NSError**)error;
++ (NSString *)getPasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
-+(BOOL)removePasswordForService:(NSString*)service account:(NSString*)account keychain:(NSString*)keycahin error:(NSError**)error;
-
-
++ (BOOL)removePasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
 @end

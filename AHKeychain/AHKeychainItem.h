@@ -5,7 +5,7 @@
 //  Created by Eldon Ahrold on 5/7/14.
 //  https://github.com/eahrold/ahkeychain/
 //
-// This class is a derivitave of SSKeychain https://github.com/soffes/sskeychain/
+// This project is a derivative of SSKeychain https://github.com/soffes/sskeychain/
 // And released under the same license.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,6 +25,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -35,9 +36,9 @@
 
 #ifdef AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 typedef NS_ENUM(NSUInteger, AHKeychainQuerySynchronizationMode) {
-	AHKeychainQuerySynchronizationModeAny,
-	AHKeychainQuerySynchronizationModeNo,
-	AHKeychainQuerySynchronizationModeYes
+    AHKeychainQuerySynchronizationModeAny,
+    AHKeychainQuerySynchronizationModeNo,
+    AHKeychainQuerySynchronizationModeYes
 };
 #endif
 
@@ -46,17 +47,17 @@ typedef NS_ENUM(NSUInteger, AHKeychainQuerySynchronizationMode) {
 /**
  *  service name of keychain item
  */
-@property (copy,nonatomic) NSString *service;
+@property (copy, nonatomic) NSString *service;
 
 /**
- *  lable of keychain item
+ *  label of keychain item
  */
-@property (copy,nonatomic) NSString *label;
+@property (copy, nonatomic) NSString *label;
 
 /**
  *  account name of keychain item
  */
-@property (copy,nonatomic) NSString *account;
+@property (copy, nonatomic) NSString *account;
 
 #if AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
 /** kSecAttrSynchronizable */
@@ -76,11 +77,11 @@ typedef NS_ENUM(NSUInteger, AHKeychainQuerySynchronizationMode) {
 /**
  *  password for keychain item
  */
-@property (copy,nonatomic) NSString *password;
+@property (copy, nonatomic) NSString *password;
 
 /**
  *  Array of paths to applications that should have permission to the keychain
  */
-@property (copy,nonatomic) NSArray  *trustedApplications;
+@property (copy, nonatomic) NSArray *trustedApplications;
 
 @end

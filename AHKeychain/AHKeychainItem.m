@@ -5,7 +5,7 @@
 //  Created by Eldon Ahrold on 5/7/14.
 //  https://github.com/eahrold/ahkeychain/
 //
-// This class is a derivative of SSKeychain https://github.com/soffes/sskeychain/
+// This project is a derivative of SSKeychain https://github.com/soffes/sskeychain/
 // And released under the same license.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,6 +25,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
 
 #import "AHKeychainItem.h"
 
@@ -32,32 +33,35 @@
 
 #pragma mark - Public
 
--(NSString *)description{
-    return [NSString stringWithFormat:@"Keychain Item Service:%@ Account:%@", self.service,self.account];
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Keychain Item Service:%@ Account:%@", self.service, self.account];
 }
 
 #pragma mark - Accessors
-- (void)setPasswordObject:(id<NSCoding>)object {
+- (void)setPasswordObject:(id<NSCoding>)object
+{
     self.passwordData = [NSKeyedArchiver archivedDataWithRootObject:object];
 }
 
-
-- (id<NSCoding>)passwordObject {
+- (id<NSCoding>)passwordObject
+{
     if ([self.passwordData length]) {
         return [NSKeyedUnarchiver unarchiveObjectWithData:self.passwordData];
     }
     return nil;
 }
 
-
-- (void)setPassword:(NSString *)password {
+- (void)setPassword:(NSString *)password
+{
     self.passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-
-- (NSString *)password {
+- (NSString *)password
+{
     if ([self.passwordData length]) {
-        return [[NSString alloc] initWithData:self.passwordData encoding:NSUTF8StringEncoding];
+        return [[NSString alloc] initWithData:self.passwordData
+                                     encoding:NSUTF8StringEncoding];
     }
     return nil;
 }
