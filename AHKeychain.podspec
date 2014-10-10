@@ -1,15 +1,14 @@
-Pod::Spec.new do |s|
-  s.name = 'AHKeychain'
-  s.version = '0.1.2'
-  s.platform = :osx
-  s.license = 'MIT'
-  s.summary = 'Objective-c class for managing os x keychains'
-  s.homepage = 'https://github.com/eahrold/AHKeychain'
-  s.authors  = { 'Eldon Ahrold' => 'eldon.ahrold@gmail.com' }
-  s.source   = { :git => 'https://github.com/eahrold/AHKeychain.git', :tag => "#{s.version}" }
-  s.requires_arc = true  
-  s.frameworks = 'Security', 'Foundation'
-  s.public_header_files = 'AHKeychain/*.h'
-  s.source_files = 'AHKeychain/*.{h,m}'
+Pod::Spec.new do |spec|
+  spec.name = 'AHKeychain'
+  spec.version = '0.1.3'
+  spec.platform = :osx
+  spec.license = 'MIT'
+  spec.summary = 'Objective-c class for managing os x keychains'
+  spec.homepage = 'https://github.com/eahrold/AHKeychain'
+  spec.authors  = { 'Eldon Ahrold' => 'eldon.ahrold@gmail.com' }
+  spec.source   = { :git => 'https://github.com/eahrold/AHKeychain.git', :tag => "v#{spec.version}" }
+  spec.requires_arc = true
+  spec.frameworks = 'Security', 'Foundation'
+  spec.public_header_files = 'AHKeychain/*.h'
+  spec.source_files = 'AHKeychain/*.{h,m}'
 end
-  
