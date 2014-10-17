@@ -1,4 +1,3 @@
-//
 //  AHKeychain.h
 //  AHKeychain
 //
@@ -25,31 +24,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
-
 #import "AHKeychainItem.h"
 
+/**
+ *  Keychain Domains
+ */
 typedef NS_ENUM(int, AHKeychainDomain) {
+    /**
+     *  Unset Domain
+     */
     kAHKeychainDomainNotSet = -1,
-    /** Indicates the user preference domain preferences. */
+    /**
+     *  Indicates the user preference domain preferences.
+     */
     kAHKeychainDomainUser = kSecPreferencesDomainUser,
-
-    /** Indicates the system preference domain preferences. */
+    /**
+     *  Indicates the system preference domain preferences.
+     */
     kAHKeychainDomainSystem = kSecPreferencesDomainSystem,
-
-    /** Indicates the shared preference domain preferences. */
+    /**
+     *  Indicates the shared preference domain preferences.
+     */
     kAHKeychainDomainShared = kSecPreferencesDomainCommon,
-
-    /** Indicates Indicates a dynamic search list.  */
+    /**
+     *  Indicates Indicates a dynamic search list.
+     */
     kAHKeychainDomainDynamic = kSecPreferencesDomainDynamic,
 };
 
+/**
+ *  Constant used for specifying system keychain
+ */
 extern NSString *const kAHKeychainSystemKeychain;
+
+/**
+ *  Constant used for specifying system keychain
+ */
 extern NSString *const kAHKeychainLoginKeychain;
 
+/**
+ *  Class for working with a specific keycahin
+ */
 @interface AHKeychain : NSObject
 
 /**
@@ -59,18 +77,18 @@ extern NSString *const kAHKeychainLoginKeychain;
 @property (copy, nonatomic) NSString *name;
 
 /**
- *  search domain used to locate keychains
+ *  Search domain used to locate keychains
  */
 @property (nonatomic) AHKeychainDomain keychainDomain;
 
 /**
- *  status return of the last executed method.
+ *  Status return of the last executed method.
  *  @discussion this is useful for seeing the result of initializer methods. See initializer methods for more info.
  */
 @property (nonatomic, readonly) OSStatus keychainStatus;
 
 /**
- *  a description of the current keychainStatus
+ *  A description of the current keychainStatus
  */
 @property (copy, nonatomic, readonly) NSString *statusDescription;
 
@@ -223,12 +241,55 @@ extern NSString *const kAHKeychainLoginKeychain;
 + (AHKeychain *)keychainAtPath:(NSString *)path;
 
 #pragma mark - Class Methods
+/**
+ *  Set A Keychain Password
+ *
+ *  @param password    password for keychain itme
+ *  @param service     service name for keychain itme
+ *  @param account     account name for keychain itme
+ *  @param keychain    keychain to access
+ *  @param trustedApps array of full paths to trusted apps that should be granted access to the keychain
+ *  @param error       populated error object should error occur
+ *
+ *  @return YES if password was successfully set, NO on failure
+ */
 + (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain trustedApps:(NSArray *)trustedApps error:(NSError **)error;
 
+/**
+ *  Set A Keychain Password
+ *
+ *  @param password    password for keychain itme
+ *  @param service     service name for keychain itme
+ *  @param account     account name for keychain itme
+ *  @param keychain    keychain to access
+ *  @param error       populated error object should error occur
+ *
+ *  @return YES if password was successfully set, NO on failure
+ */
 + (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
+/**
+ *  Get the password for a specific keychain
+ *
+ *  @param service     service name for keychain itme
+ *  @param account     account name for keychain itme
+ *  @param keychain    keychain to access
+ *  @param error       populated error object should error occur
+ *
+ *  @return Password for specified keychain item
+ */
 + (NSString *)getPasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
+/**
+ *  Remove password for specific keychain item
+ *
+ *  @param service     service name for keychain itme
+ *  @param account     account name for keychain itme
+ *  @param keychain    keychain to access
+ *  @param error       populated error object should error occur
+ *
+ *  @return YES if password was successfully set, NO on failure
+ */
 + (BOOL)removePasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
 
 @end

@@ -33,12 +33,33 @@ NSString *const kAHKeychainItemErrorDomain = @"com.eeaapps.ahkeychain";
 NSString *const kAHKeychainSystemKeychain = @"com.eeaapps.ahkeychain.system";
 NSString *const kAHKeychainLoginKeychain = @"com.eeaapps.ahkeychain.login";
 
+/**
+ *  Error Codes
+ */
 typedef NS_ENUM(int, AHKeychainErrorCode) {
+    /**
+     *  Keychain item already exists.
+     */
     kAHKeychainErrKeychainAlreadyExists = -1,
+    /**
+     *  Missing required value (account or service)
+     */
     kAHKeychainErrMissingKey = 1000,
+    /**
+     *  Missing password
+     */
     kAHKeychainErrNoPasswordGiven,
+    /**
+     *  Insufficant permisson to access item
+     */
     kAHKeychainErrCouldNotCreateAccess,
+    /**
+     *  System keychain cannot be removed
+     */
     kAHKeychainErrCannotDeleteSystemKeychain = 2000,
+    /**
+     *  Defalut keychain cannot be removed
+     */
     kAHKeychainErrCannotDeleteDefaultLoginKeychain,
 };
 

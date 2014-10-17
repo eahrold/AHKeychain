@@ -35,13 +35,28 @@
 #endif
 
 #ifdef AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
+/**
+ *  Synchronization Mode
+ */
 typedef NS_ENUM(NSUInteger, AHKeychainQuerySynchronizationMode) {
+    /**
+     *  Synchronization mode any
+     */
     AHKeychainQuerySynchronizationModeAny,
+    /**
+     *  Synchronization mode no
+     */
     AHKeychainQuerySynchronizationModeNo,
+    /**
+     *  Synchronization mode mode yes
+     */
     AHKeychainQuerySynchronizationModeYes
 };
 #endif
 
+/**
+ *  Class for specifying keychain item
+ */
 @interface AHKeychainItem : NSObject
 
 /**
