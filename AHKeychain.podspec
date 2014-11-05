@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'AHKeychain'
-  spec.version = '0.1.3'
+  spec.version = '0.2'
   spec.platform = :osx
   spec.license = 'MIT'
   spec.summary = 'Objective-c class for managing os x keychains'

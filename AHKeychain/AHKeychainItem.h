@@ -99,4 +99,11 @@ typedef NS_ENUM(NSUInteger, AHKeychainQuerySynchronizationMode) {
  */
 @property (copy, nonatomic) NSArray *trustedApplications;
 
+#if __MAC_10_9
+/**
+ *  Array of paths to applications that should have permission to the keychain
+ */
+@property (copy, nonatomic) NSString *accessGroup;
+#endif
+
 @end

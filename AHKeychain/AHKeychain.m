@@ -63,48 +63,58 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
     kAHKeychainErrCannotDeleteDefaultLoginKeychain,
 };
 
+NSString *normalizedName(NSString *name)
+{
+    if (![[NSPredicate predicateWithFormat:@"pathExtension == 'keychain'"] evaluateWithObject:name]) {
+        name = [name stringByAppendingPathExtension:@"keychain"];
+    }
+    return name;
+}
+
 @interface AHKeychain ()
 @property (nonatomic, strong) id keychainObject;
 @end
 
 @implementation AHKeychain
 @synthesize name = _name;
+@synthesize keychainStatus = _keychainStatus;
 
 #pragma mark - Modifying Keychain
 
 #pragma mark-- Initializers --
+// Existing Keychain Objects
 - (instancetype)initWithKeychain:(NSString *)name
 {
     self = [super init];
     if (self) {
         self.name = name;
     }
-    return self;
+    return _name ? self:nil;
 }
 
+// Creating new Keychain Objects
 - (instancetype)initCreatingNewKeychainAtPath:(NSString *)path
                                        domain:(AHKeychainDomain)domain
                                      password:(NSString *)password
 {
-    SecKeychainRef keychain;
-
     self = [super init];
-    _keychainStatus = errSecSuccess;
-    self.keychainDomain = kAHKeychainDomainUser;
-    self.name = path;
-
     if (self) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:nil]) {
-            _keychainStatus = kAHKeychainErrKeychainAlreadyExists;
-            OSStatus status;
-            status = SecKeychainOpen(_name.UTF8String, &keychain);
-            if (status == errSecSuccess)
-                _keychainObject = CFBridgingRelease(keychain);
-            else
-                _keychainStatus = status;
-        } else {
+        SecKeychainRef keychain;
+        BOOL isDir;
 
-            _keychainStatus = SecKeychainCreate(path.UTF8String,
+        _name = normalizedName(path);
+        _keychainDomain = domain;
+        _keychainStatus = errSecSuccess;
+        NSFileManager *fm = [NSFileManager defaultManager];
+
+        if ([fm fileExistsAtPath:_name]) {
+            _keychainStatus = SecKeychainOpen(_name.UTF8String, &keychain);
+            if (_keychainStatus == errSecSuccess) {
+                _keychainObject = CFBridgingRelease(keychain);
+                _keychainStatus = kAHKeychainErrKeychainAlreadyExists;
+            }
+        } else if ([fm fileExistsAtPath:[_name stringByDeletingLastPathComponent] isDirectory:&isDir] && isDir) {
+            _keychainStatus = SecKeychainCreate(_name.UTF8String,
                                                 password ? (UInt32)password.length : 0,
                                                 password ? password.UTF8String : NULL,
                                                 password ? FALSE : TRUE,
@@ -114,12 +124,14 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
             if (_keychainStatus == errSecSuccess) {
                 // register the newly created keychain with the particular
                 // search domain where it was created
-                _keychainObject = CFBridgingRelease(keychain);
                 CFArrayRef cfArray;
-                SecKeychainCopyDomainSearchList(_keychainDomain, &cfArray);
-                NSMutableArray *array = CFBridgingRelease(cfArray);
-                [array addObject:_keychainObject];
-                SecKeychainSetDomainSearchList(_keychainDomain, (__bridge CFArrayRef)(array));
+                _keychainObject = CFBridgingRelease(keychain);
+                _keychainStatus = SecKeychainCopyDomainSearchList(_keychainDomain, &cfArray);
+                if (_keychainStatus == errSecSuccess) {
+                    NSMutableArray *array = CFBridgingRelease(cfArray);
+                    [array addObject:_keychainObject];
+                    _keychainStatus = SecKeychainSetDomainSearchList(_keychainDomain, (__bridge CFArrayRef)(array));
+                }
             }
         }
     }
@@ -128,18 +140,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 
 - (instancetype)initCreatingNewKeychainAtPath:(NSString *)path password:(NSString *)password
 {
-    NSPredicate *systemPredicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] %@", @"/Library/Keychains/"];
-
-    NSPredicate *userPredicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] %@", NSHomeDirectory()];
-
-    AHKeychainDomain domain = kAHKeychainDomainDynamic;
-    if ([systemPredicate evaluateWithObject:path]) {
-        domain = kAHKeychainDomainSystem;
-    } else if ([userPredicate evaluateWithObject:path]) {
-        domain = kAHKeychainDomainUser;
-    }
-
-    return [self initCreatingNewKeychainAtPath:path domain:domain password:password];
+    return [self initCreatingNewKeychainAtPath:path domain:kAHKeychainDomainUser password:password];
 }
 
 - (instancetype)initCreatingNewKeychainAtPath:(NSString *)path
@@ -149,8 +150,8 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 
 - (instancetype)initCreatingNewKeychain:(NSString *)name password:(NSString *)password
 {
-    NSString *path = [NSString stringWithFormat:@"%@/Library/Keychains/%@.keychain", NSHomeDirectory(), name];
-    return [self initCreatingNewKeychainAtPath:path password:password];
+    NSString *path = [NSString stringWithFormat:@"%@/Library/Keychains/%@", NSHomeDirectory(), normalizedName([name lastPathComponent])];
+    return [self initCreatingNewKeychainAtPath:path domain:kAHKeychainDomainUser password:password];
 }
 
 - (instancetype)initCreatingNewKeychain:(NSString *)name
@@ -176,27 +177,138 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 // so we'll silence the warning here.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-function-declaration"
-    (void)SecKeychainLock((__bridge SecKeychainRef)(_keychainObject));
-
-    _keychainStatus = SecKeychainChangePassword((__bridge SecKeychainRef)self.keychainObject, (UInt32)oldpass.length, oldpass.UTF8String, (UInt32)newpass.length, newpass.UTF8String);
+    if ([self lock]) {
+        _keychainStatus = SecKeychainChangePassword((__bridge SecKeychainRef)self.keychainObject, (UInt32)oldpass.length, oldpass.UTF8String, (UInt32)newpass.length, newpass.UTF8String);
+    }
 #pragma clang diagnostic pop
     return [[self class] errorWithCode:_keychainStatus error:error];
 }
 
 - (BOOL)deleteKeychain:(NSError *__autoreleasing *)error
 {
-    _keychainStatus = errSecSuccess;
     if ([self.name isEqualToString:self.defaultLoginKeychain]) {
         _keychainStatus = kAHKeychainErrCannotDeleteDefaultLoginKeychain;
     } else if ([self.name isEqualToString:self.systemKeychain]) {
         _keychainStatus = kAHKeychainErrCannotDeleteSystemKeychain;
     }
 
-    if (self.keychainObject && (_keychainStatus == errSecSuccess)) {
-        _keychainStatus = SecKeychainDelete((__bridge SecKeychainRef)(self.keychainObject));
-    }
+    _keychainStatus = SecKeychainDelete((__bridge SecKeychainRef)self.keychainObject);
     return [[self class] errorWithCode:_keychainStatus error:error];
 }
+
+- (BOOL)lock
+{
+    _keychainStatus = SecKeychainLock((__bridge SecKeychainRef)self.keychainObject);
+    return (_keychainStatus == errSecSuccess);
+}
+
+- (BOOL)unlock
+{
+    return [self unlockWithPassword:nil];
+}
+
+- (BOOL)unlockWithPassword:(NSString *)password
+{
+    _keychainStatus = SecKeychainUnlock((__bridge SecKeychainRef)(self.keychainObject),
+                                        password ? (UInt32)password.length : 0,
+                                        password ? password.UTF8String : NULL,
+                                        password ? YES : NO);
+
+    return (_keychainStatus == errSecSuccess);
+}
+
+#pragma mark - Accessors
+- (id)keychainObject
+{
+    /**  the basis of this was inspired by keychain_utilities.c
+     *  http://www.opensource.apple.com/source/SecurityTool/SecurityTool-55115/
+     */
+    if (!_keychainObject) {
+        SecKeychainRef keychain = NULL;
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:_name]) {
+            _keychainStatus = SecKeychainOpen(_name.UTF8String, &keychain);
+            if (_keychainStatus == errSecSuccess) {
+                _keychainObject = CFBridgingRelease(keychain);
+            }
+        } else {
+            CFArrayRef kcArray = NULL;
+            _keychainStatus = SecKeychainCopyDomainSearchList(_keychainDomain, &kcArray);
+            if (_keychainStatus == errSecSuccess) {
+                // set the status here so if a match is not found in the for loop
+                // the status code will be appropriate
+                _keychainStatus = errSecInvalidKeychain;
+
+                // convert it over to ARC for fast enumeration
+                NSArray *keychainsList = CFBridgingRelease(kcArray);
+
+
+                for (id keychain in keychainsList) {
+                    char pathName[MAXPATHLEN];
+                    UInt32 pathLength = sizeof(pathName);
+                    bzero(pathName, pathLength);
+                    OSStatus err = SecKeychainGetPath((__bridge SecKeychainRef)(keychain), &pathLength, pathName);
+                    if (err == errSecSuccess) {
+                        if ([[NSString stringWithUTF8String:pathName] isEqualToString:_name]) {
+                            _keychainStatus = errSecSuccess;
+                            _keychainObject = keychain;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return _keychainObject;
+}
+
+- (void)setName:(NSString *)name
+{
+    if ([name isEqualToString:kAHKeychainLoginKeychain]) {
+        _name = [self defaultLoginKeychain];
+        _keychainDomain = kAHKeychainDomainUser;
+    } else if ([name isEqualToString:kAHKeychainSystemKeychain]) {
+        _name = [self systemKeychain];
+        _keychainDomain = kAHKeychainDomainSystem;
+    } else {
+        name = normalizedName(name);
+        NSString *userKeychain = [NSString stringWithFormat:@"%@/Library/Keychains/%@", NSHomeDirectory(), name];
+        NSFileManager *fm = [NSFileManager defaultManager];
+
+        if ([fm fileExistsAtPath:name]) {
+            _name = name;
+            _keychainDomain = kAHKeychainDomainUser;
+
+        } else if ([fm fileExistsAtPath:userKeychain]) {
+            _name = userKeychain;
+            _keychainDomain = kAHKeychainDomainUser;
+        } else {
+            _keychainDomain = kAHKeychainDomainDynamic;
+        }
+    }
+}
+
+- (NSString *)name
+{
+    if (self.keychainObject) {
+        _keychainStatus = errSecSuccess;
+        char pathName[MAXPATHLEN];
+        UInt32 pathLength = sizeof(pathName);
+        bzero(pathName, pathLength);
+        _keychainStatus = SecKeychainGetPath((__bridge SecKeychainRef)self.keychainObject,
+                                             &pathLength, pathName);
+        if (_keychainStatus == errSecSuccess) {
+            _name = [NSString stringWithUTF8String:pathName];
+        }
+    }
+    return _name;
+}
+
+- (NSString *)statusDescription
+{
+    return [[self class] errorMessage:self.keychainStatus];
+}
+
 
 #pragma mark - Modifying Keychain Items
 - (BOOL)saveItem:(AHKeychainItem *)item error:(NSError *__autoreleasing *)error
@@ -211,20 +323,27 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
         return NO;
 
     if ([self itemExistsWithQuery:query error:error]) {
-        NSMutableDictionary *updateAttrs = [NSMutableDictionary new];
-        [updateAttrs setObject:item.passwordData forKey:(__bridge id)kSecValueData];
-        if (item.label) {
-            [updateAttrs setObject:item.label forKey:(__bridge id)kSecAttrLabel];
-        }
-        if (query[(__bridge id)(kSecAttrSynchronizable)]) {
-            [updateAttrs setObject:query[(__bridge id)(kSecAttrSynchronizable)]
-                            forKey:(__bridge id)(kSecAttrSynchronizable)];
-        }
-        [query removeObjectForKey:(__bridge id)(kSecAttrSynchronizable)];
-        _keychainStatus = SecItemUpdate((__bridge CFDictionaryRef)(query),
-                                        (__bridge CFDictionaryRef)updateAttrs);
+        // Currently the most effective way to reset trusted apps
+        // is to remove the keychain and readd it.
+        if (!item.trustedApplications) {
+            NSMutableDictionary *updateAttrs = [NSMutableDictionary new];
+            [updateAttrs setObject:item.passwordData forKey:(__bridge id)kSecValueData];
+            if (item.label) {
+                [updateAttrs setObject:item.label forKey:(__bridge id)kSecAttrLabel];
+            }
 
-        return [[self class] errorWithCode:_keychainStatus error:error];
+            if (query[(__bridge id)(kSecAttrSynchronizable)]) {
+                [updateAttrs setObject:query[(__bridge id)(kSecAttrSynchronizable)]
+                                forKey:(__bridge id)(kSecAttrSynchronizable)];
+            }
+
+            [query removeObjectForKey:(__bridge id)(kSecAttrSynchronizable)];
+            _keychainStatus = SecItemUpdate((__bridge CFDictionaryRef)(query),
+                                            (__bridge CFDictionaryRef)updateAttrs);
+
+            return [[self class] errorWithCode:_keychainStatus error:error];
+        }
+        if(![self deleteItem:item error:error])return NO;
     }
 
     [query setObject:item.passwordData forKey:(__bridge id)kSecValueData];
@@ -234,6 +353,14 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 
     if (item.trustedApplications.count > 0) {
         [self createAccessForQuery:query item:item error:error];
+    }
+
+    // access group is only avaliable starting in 10.9 so only add it
+    // to the query if running that or above...
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber10_8_4) {
+        if (item.accessGroup) {
+            [query setObject:item.accessGroup forKey:(__bridge id)kSecAttrAccessGroup];
+        }
     }
 
     _keychainStatus = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
@@ -274,6 +401,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 
     CFTypeRef result = NULL;
     [query setObject:@YES forKey:(__bridge id)kSecReturnRef];
+
     _keychainStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
 
     if (_keychainStatus == errSecSuccess) {
@@ -293,125 +421,12 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
     return [self itemExistsWithQuery:query error:error];
 }
 
-- (BOOL)itemExistsWithQuery:(NSDictionary *)query error:(NSError *__autoreleasing *)error
-{
-    _keychainStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
-    return [[self class] errorWithCode:_keychainStatus error:error];
-}
-
 - (NSArray *)findAllItems:(NSError *__autoreleasing *)error
 {
     NSArray *array;
     return array;
 }
 
-#pragma mark - Accessors
-#pragma mark-- Getters --
-
-- (id)keychainObject
-{
-    /**  the basis of this was inspired by keychain_utilities.c
-     *  http://www.opensource.apple.com/source/SecurityTool/SecurityTool-55115/
-     */
-    if (_keychainObject) {
-        return _keychainObject;
-    }
-
-    _keychainStatus = errSecInvalidKeychain;
-
-    SecKeychainRef keychain = NULL;
-    NSFileManager *fm = [NSFileManager new];
-
-    if ([fm fileExistsAtPath:_name]) {
-        _keychainStatus = SecKeychainOpen(_name.UTF8String, &keychain);
-        if (_keychainStatus == errSecSuccess)
-            return CFBridgingRelease(keychain);
-    } else {
-        CFArrayRef kcArray = NULL;
-        _keychainStatus = SecKeychainCopyDomainSearchList(kSecPreferencesDomainDynamic, &kcArray);
-        if (_keychainStatus == errSecSuccess) {
-            // set the status here so if a match is not found in the for loop
-            // the status code will be appropriate
-            _keychainStatus = errSecInvalidKeychain;
-
-            // convert it over to ARC for fast enumeration
-            NSArray *keychainsList = CFBridgingRelease(kcArray);
-
-            char pathName[MAXPATHLEN];
-            UInt32 pathLength = sizeof(pathName);
-            for (id keychain in keychainsList) {
-                bzero(pathName, pathLength);
-                OSStatus err = SecKeychainGetPath((__bridge SecKeychainRef)(keychain), &pathLength, pathName);
-                if (err == errSecSuccess) {
-                    NSString *foundKeychainName = [[[NSString stringWithUTF8String:pathName] lastPathComponent] stringByDeletingPathExtension];
-                    if ([foundKeychainName isEqualToString:_name]) {
-                        _keychainStatus = errSecSuccess;
-                        return keychain;
-                    }
-                }
-            }
-        }
-    }
-    return nil;
-}
-
-- (NSString *)name
-{
-    if (_keychainObject) {
-        _keychainStatus = errSecSuccess;
-        char pathName[MAXPATHLEN];
-        UInt32 pathLength = sizeof(pathName);
-        bzero(pathName, pathLength);
-        _keychainStatus = SecKeychainGetPath((__bridge SecKeychainRef)(_keychainObject),
-                                             &pathLength, pathName);
-        if (_keychainStatus == errSecSuccess) {
-            return [NSString stringWithUTF8String:pathName];
-        }
-    }
-    return _name;
-}
-
-- (NSString *)statusDescription
-{
-    return [[self class] errorMessage:self.keychainStatus];
-}
-
-- (NSString *)defaultLoginKeychain
-{
-    return [NSString stringWithFormat:@"%@/Library/Keychains/login.keychain", NSHomeDirectory()];
-}
-
-- (NSString *)systemKeychain
-{
-    return @"/Library/Keychains/System.keychain";
-}
-
-#pragma mark-- Setters --
-- (void)setKeychainDomain:(AHKeychainDomain)keychainDomain
-{
-    _keychainDomain = keychainDomain;
-    if (!_keychainObject && !_name) {
-        switch (keychainDomain) {
-        case kAHKeychainDomainSystem:
-            self.name = kAHKeychainSystemKeychain;
-            break;
-        default:
-            self.name = kAHKeychainLoginKeychain;
-            break;
-        }
-    }
-}
-
-- (void)setName:(NSString *)name
-{
-    if ([name isEqualToString:kAHKeychainLoginKeychain]) {
-        _name = self.defaultLoginKeychain;
-    } else if ([name isEqualToString:kAHKeychainSystemKeychain]) {
-        _name = self.systemKeychain;
-    } else {
-        _name = name;
-    }
-}
 
 #pragma mark - Private
 - (NSMutableDictionary *)query:(AHKeychainItem *)item error:(NSError *__autoreleasing *)error
@@ -428,9 +443,10 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
         [query setObject:item.account forKey:(__bridge id)kSecAttrAccount];
     }
 
-    _keychainObject = self.keychainObject;
-    if (_keychainObject) {
-        [query setObject:_keychainObject forKey:(__bridge id)kSecUseKeychain];
+    id keychain = self.keychainObject;
+    if (keychain) {
+        [query setObject:keychain forKey:(__bridge id)kSecUseKeychain];
+        [query setObject:@[keychain] forKey:kSecMatchSearchList];
     }
 
 #if AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
@@ -476,6 +492,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
     if (_keychainStatus != errSecSuccess) {
         return [[self class] errorWithCode:_keychainStatus error:error];
     }
+
     [trustedApplications addObject:(__bridge_transfer id)secTrustSelf];
 
     // calling SecTrustedApplicationCreateFromPath with NULL as the path
@@ -508,27 +525,45 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
     return [[self class] errorWithCode:_keychainStatus error:error];
 }
 
+- (BOOL)itemExistsWithQuery:(NSMutableDictionary *)query error:(NSError *__autoreleasing *)error
+{
+    _keychainStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+    return [[self class] errorWithCode:_keychainStatus error:error];
+}
+
+- (NSString *)defaultLoginKeychain
+{
+    return [NSString stringWithFormat:@"%@/Library/Keychains/login.keychain", NSHomeDirectory()];
+}
+
+- (NSString *)systemKeychain
+{
+    return @"/Library/Keychains/System.keychain";
+}
+
 #pragma mark - Class Methods
 + (AHKeychain *)systemKeychain
 {
-    AHKeychain *keychain = [[AHKeychain alloc] init];
-    keychain.keychainDomain = kAHKeychainDomainSystem;
+    AHKeychain *keychain = [[AHKeychain alloc] initWithKeychain:kAHKeychainSystemKeychain];
     return keychain;
 }
 
 + (AHKeychain *)loginKeychain
 {
-    AHKeychain *keychain = [[AHKeychain alloc] init];
-    keychain.keychainDomain = kAHKeychainDomainUser;
+    AHKeychain *keychain = [[AHKeychain alloc] initWithKeychain:kAHKeychainLoginKeychain];
+    return keychain;
+}
+
++ (AHKeychain *)keychainWithName:(NSString *)name
+{
+    name = normalizedName(name);
+    AHKeychain *keychain = [[AHKeychain alloc] initWithKeychain:name];
     return keychain;
 }
 
 + (AHKeychain *)keychainAtPath:(NSString *)path
 {
-    AHKeychain *keychain = [[AHKeychain alloc] init];
-    keychain.name = path;
-    keychain.keychainDomain = kAHKeychainDomainDynamic;
-    return keychain;
+    return [[self class] keychainWithName:path];
 }
 
 + (BOOL)setPassword:(NSString *)password
@@ -538,9 +573,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
         trustedApps:(NSArray *)trustedApps
               error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [AHKeychain new];
-    if (keychain)
-        kc.name = keychain;
+    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
     AHKeychainItem *item = [AHKeychainItem new];
     item.account = account;
     item.service = service;
@@ -563,10 +596,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
                            keychain:(NSString *)keychain
                               error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [[AHKeychain alloc] init];
-    if (keychain)
-        kc.name = keychain;
-
+    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
     AHKeychainItem *item = [AHKeychainItem new];
     item.account = account;
     item.service = service;
@@ -579,10 +609,7 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
                         keychain:(NSString *)keychain
                            error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [AHKeychain new];
-    if (keychain)
-        kc.name = keychain;
-
+    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
     AHKeychainItem *item = [AHKeychainItem new];
     item.account = account;
     item.service = service;

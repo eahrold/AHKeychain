@@ -111,6 +111,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
+ *  @note Useing this method will register the keychain with the user search domain
  */
 - (instancetype)initCreatingNewKeychainAtPath:(NSString *)path password:(NSString *)password;
 
@@ -121,6 +122,7 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @return A new keychain that you can start adding items to.
  *  @discussion if a keychain already exists at the requested path the return will be that object, with a keychainStatus of -1.  If you only want to use a new keychain, you look for this return code and handle accordingly.
+ *  @note Useing this method will register the keychain with the user search domain
  */
 - (instancetype)initCreatingNewKeychainAtPath:(NSString *)path;
 
@@ -164,6 +166,28 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @return YES on success, NO on failure
  */
 - (BOOL)deleteKeychain:(NSError **)error;
+
+/**
+ *  Lock the keychain
+ *
+ *  @return YES if keychain was successfully locked
+ */
+- (BOOL)lock;
+/**
+ *  Unlock a keychain
+ *
+ *  @return YES if the keychain was successfully unlocked
+ */
+- (BOOL)unlock;
+
+/**
+ *  Unlock a keychain with a supplied password
+ *
+ *  @param password password used to unlock keychain
+ *
+ *  @return YES if the keychain was successfully unlocked
+ */
+- (BOOL)unlockWithPassword:(NSString *)password;
 
 #pragma mark - Modifying Keychain Items
 /**
@@ -235,10 +259,20 @@ extern NSString *const kAHKeychainLoginKeychain;
  *
  *  @param path full path to the keychain file including the .keychain extension
  *
- *  @return keychain at the path
+ *  @return keychain at the path or nil if item doesn't exist
  *  @discussion This is not a singleton.  If performing multiple actions on a keychain create an instance using this.
  */
 + (AHKeychain *)keychainAtPath:(NSString *)path;
+
+/**
+ *  Convenience initializer for a keychain at a specific path
+ *
+ *  @param name name of the user keycahin item
+ *
+ *  @return keychain item located in the user's ~/Library/Keycahin/ directory, or nil if the item doesn't exist.
+ *  @discussion This is not a singleton.  If performing multiple actions on a keychain create an instance using this.
+ */
++ (AHKeychain *)keychainWithName:(NSString *)name;
 
 #pragma mark - Class Methods
 /**
