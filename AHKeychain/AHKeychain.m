@@ -88,8 +88,11 @@ NSString *normalizedName(NSString *name)
     self = [super init];
     if (self) {
         self.name = name;
+        if (!self->_name) {
+            return nil;
+        }
     }
-    return _name ? self:nil;
+    return self;
 }
 
 // Creating new Keychain Objects
@@ -270,7 +273,7 @@ NSString *normalizedName(NSString *name)
     } else if ([name isEqualToString:kAHKeychainSystemKeychain]) {
         _name = [self systemKeychain];
         _keychainDomain = kAHKeychainDomainSystem;
-    } else {
+    } else if (name) {
         name = normalizedName(name);
         NSString *userKeychain = [NSString stringWithFormat:@"%@/Library/Keychains/%@", NSHomeDirectory(), name];
         NSFileManager *fm = [NSFileManager defaultManager];
