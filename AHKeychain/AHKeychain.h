@@ -281,13 +281,18 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @param password    password for keychain itme
  *  @param service     service name for keychain itme
  *  @param account     account name for keychain itme
- *  @param keychain    keychain to access
+ *  @param keychain    either path for the keychain, keychain name constant, or initialized AHKeychain object
  *  @param trustedApps array of full paths to trusted apps that should be granted access to the keychain
  *  @param error       populated error object should error occur
  *
  *  @return YES if password was successfully set, NO on failure
  */
-+ (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain trustedApps:(NSArray *)trustedApps error:(NSError **)error;
++ (BOOL)setPassword:(NSString *)password
+            service:(NSString *)service
+            account:(NSString *)account
+           keychain:(id)keychain
+        trustedApps:(NSArray *)trustedApps
+              error:(NSError **)error;
 
 /**
  *  Set A Keychain Password
@@ -295,35 +300,45 @@ extern NSString *const kAHKeychainLoginKeychain;
  *  @param password    password for keychain itme
  *  @param service     service name for keychain itme
  *  @param account     account name for keychain itme
- *  @param keychain    keychain to access
+ *  @param keychain    either path for the keychain, keychain name constant, or initialized AHKeychain object
  *  @param error       populated error object should error occur
  *
  *  @return YES if password was successfully set, NO on failure
  */
-+ (BOOL)setPassword:(NSString *)password service:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
++ (BOOL)setPassword:(NSString *)password
+            service:(NSString *)service
+            account:(NSString *)account
+           keychain:(id)keychain
+              error:(NSError **)error;
 
 /**
  *  Get the password for a specific keychain
  *
  *  @param service     service name for keychain itme
  *  @param account     account name for keychain itme
- *  @param keychain    keychain to access
+ *  @param keychain    either path for the keychain, keychain name constant, or initialized AHKeychain object
  *  @param error       populated error object should error occur
  *
  *  @return Password for specified keychain item
  */
-+ (NSString *)getPasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
++ (NSString *)getPasswordForService:(NSString *)service
+                            account:(NSString *)account
+                           keychain:(id)keychain
+                              error:(NSError **)error;
 
 /**
  *  Remove password for specific keychain item
  *
  *  @param service     service name for keychain itme
  *  @param account     account name for keychain itme
- *  @param keychain    keychain to access
+ *  @param keychain    either path for the keychain, keychain name constant, or initialized AHKeychain object
  *  @param error       populated error object should error occur
  *
  *  @return YES if password was successfully set, NO on failure
  */
-+ (BOOL)removePasswordForService:(NSString *)service account:(NSString *)account keychain:(NSString *)keychain error:(NSError **)error;
++ (BOOL)removePasswordForService:(NSString *)service
+                         account:(NSString *)account
+                        keychain:(id)keychain
+                           error:(NSError **)error;
 
 @end

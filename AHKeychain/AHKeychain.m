@@ -576,23 +576,36 @@ NSString *normalizedName(NSString *name)
 + (BOOL)setPassword:(NSString *)password
             service:(NSString *)service
             account:(NSString *)account
-           keychain:(NSString *)keychain
+           keychain:(id)keychain
         trustedApps:(NSArray *)trustedApps
               error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
-    AHKeychainItem *item = [AHKeychainItem new];
-    item.account = account;
-    item.service = service;
-    item.password = password;
-    item.trustedApplications = trustedApps;
-    return [kc saveItem:item error:error];
+    NSAssert(keychain != NULL, @"Keychain cannot be NULL");
+    AHKeychain *kc;
+    if ([keychain isKindOfClass:[AHKeychain class]]) {
+        kc = keychain;
+    } else if ([keychain isKindOfClass:[NSString class]]){
+        kc = [[AHKeychain alloc] initWithKeychain:keychain];
+    }
+
+    if (kc) {
+        AHKeychainItem *item = [AHKeychainItem new];
+        item.account = account;
+        item.service = service;
+        item.password = password;
+        item.trustedApplications = trustedApps;
+
+        return [kc saveItem:item error:error];
+    } else {
+        return [[self class] errorWithCode:kc.keychainStatus error:error];
+    }
+
 }
 
 + (BOOL)setPassword:(NSString *)password
             service:(NSString *)service
             account:(NSString *)account
-           keychain:(NSString *)keychain
+           keychain:(id)keychain
               error:(NSError *__autoreleasing *)error
 {
     return [self setPassword:password service:service account:account keychain:keychain trustedApps:nil error:error];
@@ -600,27 +613,51 @@ NSString *normalizedName(NSString *name)
 
 + (NSString *)getPasswordForService:(NSString *)service
                             account:(NSString *)account
-                           keychain:(NSString *)keychain
+                           keychain:(id)keychain
                               error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
-    AHKeychainItem *item = [AHKeychainItem new];
-    item.account = account;
-    item.service = service;
-    [kc getItem:item error:error];
-    return item.password;
+    NSAssert(keychain != NULL, @"Keychain cannot be NULL");
+    AHKeychain *kc;
+    if ([keychain isKindOfClass:[AHKeychain class]]) {
+        kc = keychain;
+    } else if ([keychain isKindOfClass:[NSString class]]){
+        kc = [[AHKeychain alloc] initWithKeychain:keychain];
+    }
+
+    if (kc) {
+        AHKeychainItem *item = [AHKeychainItem new];
+        item.account = account;
+        item.service = service;
+        [kc getItem:item error:error];
+        return item.password;
+    } else {
+        [[self class] errorWithCode:kc.keychainStatus error:error];
+    }
+    return nil;
 }
 
 + (BOOL)removePasswordForService:(NSString *)service
                          account:(NSString *)account
-                        keychain:(NSString *)keychain
+                        keychain:(id)keychain
                            error:(NSError *__autoreleasing *)error
 {
-    AHKeychain *kc = [[AHKeychain alloc] initWithKeychain:keychain];
-    AHKeychainItem *item = [AHKeychainItem new];
-    item.account = account;
-    item.service = service;
-    return [kc deleteItem:item error:error];
+    NSAssert(keychain != NULL, @"Keychain cannot be NULL");
+    AHKeychain *kc;
+    if ([keychain isKindOfClass:[AHKeychain class]]) {
+        kc = keychain;
+    } else if ([keychain isKindOfClass:[NSString class]]){
+        kc = [[AHKeychain alloc] initWithKeychain:keychain];
+    }
+
+    if (kc) {
+
+        AHKeychainItem *item = [AHKeychainItem new];
+        item.account = account;
+        item.service = service;
+        return [kc deleteItem:item error:error];
+    } else {
+        return [[self class] errorWithCode:kc.keychainStatus error:error];
+    }
 }
 
 + (NSString *)errorMessage:(OSStatus)code

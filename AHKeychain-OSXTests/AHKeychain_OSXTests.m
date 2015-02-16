@@ -37,7 +37,7 @@
     BOOL rc = [AHKeychain setPassword:item.password
                               service:item.service
                               account:item.account
-                             keychain:kAHKeychainLoginKeychain
+                             keychain:NULL
                                 error:&error];
 
     XCTAssertTrue(rc, @"Unable to save item: %@", error);
@@ -46,6 +46,7 @@
                                                    account:item.account
                                                   keychain:kAHKeychainLoginKeychain
                                                      error:&error];
+    NSLog(@"The password is %@", password);
 
     XCTAssertTrue(password != nil, @"Unable to get item: %@", error);
 
@@ -54,8 +55,41 @@
 
     rc = [AHKeychain removePasswordForService:item.service account:item.account keychain:kAHKeychainLoginKeychain error:&error];
     XCTAssertTrue(rc, @"Unable to remove item: %@", error);
+    
 }
 
+- (void)testClassMethods2
+{
+    NSError *error;
+
+    BOOL rc = [AHKeychain setPassword:item.password
+                         service:item.service
+                         account:item.account
+                        keychain:[AHKeychain loginKeychain]
+                           error:&error];
+
+    XCTAssertTrue(rc, @"Unable to save item: %@", error);
+
+    NSString *password = [AHKeychain getPasswordForService:item.service
+                                                   account:item.account
+                                                  keychain:[AHKeychain loginKeychain]
+                                                     error:&error];
+
+    NSLog(@"The password is %@", password);
+    XCTAssertTrue(password != nil, @"Unable to get item: %@", error);
+
+    item.trustedApplications = @[ @"/Applications/Mail.app", @"/Applications/Preview.app" ];
+
+    XCTAssertTrue([[AHKeychain loginKeychain] saveItem:item error:&error], @"Unable to save item: %@", error);
+
+    rc = [AHKeychain removePasswordForService:item.service
+                                      account:item.account
+                                     keychain:[AHKeychain loginKeychain]
+                                        error:&error];
+
+    XCTAssertTrue(rc, @"Unable to remove item: %@", error);
+
+}
 
 - (void)testAddToSystemKeychainAsNonRoot
 {
