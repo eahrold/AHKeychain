@@ -335,12 +335,14 @@ NSString *normalizedName(NSString *name)
                 [updateAttrs setObject:item.label forKey:(__bridge id)kSecAttrLabel];
             }
 
+#ifdef AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
             if (query[(__bridge id)(kSecAttrSynchronizable)]) {
                 [updateAttrs setObject:query[(__bridge id)(kSecAttrSynchronizable)]
                                 forKey:(__bridge id)(kSecAttrSynchronizable)];
             }
 
             [query removeObjectForKey:(__bridge id)(kSecAttrSynchronizable)];
+#endif
             _keychainStatus = SecItemUpdate((__bridge CFDictionaryRef)(query),
                                             (__bridge CFDictionaryRef)updateAttrs);
 
@@ -360,11 +362,13 @@ NSString *normalizedName(NSString *name)
 
     // access group is only avaliable starting in 10.9 so only add it
     // to the query if running that or above...
+#if AHKEYCHAIN_ACCESS_GROUP_AVAILABLE
     if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber10_8_4) {
         if (item.accessGroup) {
             [query setObject:item.accessGroup forKey:(__bridge id)kSecAttrAccessGroup];
         }
     }
+#endif
 
     _keychainStatus = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
     return [[self class] errorWithCode:_keychainStatus error:error];

@@ -32,6 +32,7 @@
 #if __MAC_10_9
 // Keychain synchronization available at compile time
 #define AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE 1
+#define AHKEYCHAIN_ACCESS_GROUP_AVAILABLE 1
 #endif
 
 #ifdef AHKEYCHAIN_SYNCHRONIZATION_AVAILABLE
