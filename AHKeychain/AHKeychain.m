@@ -534,7 +534,11 @@ NSString *normalizedName(NSString *name)
 
 - (BOOL)itemExistsWithQuery:(NSMutableDictionary *)query error:(NSError *__autoreleasing *)error
 {
-    _keychainStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
+    CFTypeRef result = NULL;
+
+    _keychainStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
+    if (result)CFRelease(result);
+
     return [[self class] errorWithCode:_keychainStatus error:error];
 }
 
