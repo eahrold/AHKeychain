@@ -341,4 +341,14 @@ extern NSString *const kAHKeychainLoginKeychain;
                         keychain:(id)keychain
                            error:(NSError **)error;
 
+/**
+ *  Check if a keychain exists at the given path
+ *
+ *  @param path     Path to test
+ *
+ *  @return YES if a keychain exists at the path
+ *
+ *  @note This will accomidate variances in sierra where keychain path is appended with -db
+ */
++ (BOOL)keychainExistsAtPath:(NSString *)path;
 @end

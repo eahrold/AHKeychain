@@ -65,8 +65,18 @@ typedef NS_ENUM(int, AHKeychainErrorCode) {
 
 NSString *normalizedName(NSString *name)
 {
-    if (![[NSPredicate predicateWithFormat:@"pathExtension == 'keychain'"] evaluateWithObject:name]) {
-        name = [name stringByAppendingPathExtension:@"keychain"];
+    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber10_11_Max){
+        if(![name.pathExtension isEqualToString:@"keychain-db"]){
+            if([name.pathExtension isEqualToString:@"keychain"]){
+                name = [name stringByAppendingString:@"-db"];
+            } else {
+                name = [name stringByAppendingString:@"keychain-db"];
+            }
+        }
+    } else {
+        if (![[NSPredicate predicateWithFormat:@"pathExtension == 'keychain'"] evaluateWithObject:name]) {
+            name = [name stringByAppendingPathExtension:@"keychain"];
+        }
     }
     return name;
 }
@@ -129,11 +139,12 @@ NSString *normalizedName(NSString *name)
                 // search domain where it was created
                 CFArrayRef cfArray;
                 _keychainObject = CFBridgingRelease(keychain);
-                _keychainStatus = SecKeychainCopyDomainSearchList(_keychainDomain, &cfArray);
+
+                _keychainStatus = SecKeychainCopyDomainSearchList((SecPreferencesDomain)_keychainDomain, &cfArray);
                 if (_keychainStatus == errSecSuccess) {
                     NSMutableArray *array = CFBridgingRelease(cfArray);
                     [array addObject:_keychainObject];
-                    _keychainStatus = SecKeychainSetDomainSearchList(_keychainDomain, (__bridge CFArrayRef)(array));
+                    _keychainStatus = SecKeychainSetDomainSearchList((SecPreferencesDomain)_keychainDomain, (__bridge CFArrayRef)(array));
                 }
             }
         }
@@ -176,8 +187,8 @@ NSString *normalizedName(NSString *name)
     if (!oldpass || !newpass || !_name) {
         return [[self class] errorWithCode:kAHKeychainErrMissingKey error:error];
     }
-// SecKeychainChangePassword is from Apple's Private reserve <Security/SecKeychainPriv.h>
-// so we'll silence the warning here.
+    // SecKeychainChangePassword is from Apple's Private reserve <Security/SecKeychainPriv.h>
+    // so we'll silence the warning here.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-function-declaration"
     if ([self lock]) {
@@ -236,7 +247,7 @@ NSString *normalizedName(NSString *name)
             }
         } else {
             CFArrayRef kcArray = NULL;
-            _keychainStatus = SecKeychainCopyDomainSearchList(_keychainDomain, &kcArray);
+            _keychainStatus = SecKeychainCopyDomainSearchList((SecPreferencesDomain)_keychainDomain, &kcArray);
             if (_keychainStatus == errSecSuccess) {
                 // set the status here so if a match is not found in the for loop
                 // the status code will be appropriate
@@ -276,6 +287,7 @@ NSString *normalizedName(NSString *name)
     } else if (name) {
         name = normalizedName(name);
         NSString *userKeychain = [NSString stringWithFormat:@"%@/Library/Keychains/%@", NSHomeDirectory(), name];
+
         NSFileManager *fm = [NSFileManager defaultManager];
 
         if ([fm fileExistsAtPath:name]) {
@@ -461,18 +473,18 @@ NSString *normalizedName(NSString *name)
         id value;
 
         switch (item.synchronizationMode) {
-        case AHKeychainQuerySynchronizationModeNo: {
-            value = @NO;
-            break;
-        }
-        case AHKeychainQuerySynchronizationModeYes: {
-            value = @YES;
-            break;
-        }
-        case AHKeychainQuerySynchronizationModeAny: {
-            value = (__bridge id)(kSecAttrSynchronizableAny);
-            break;
-        }
+            case AHKeychainQuerySynchronizationModeNo: {
+                value = @NO;
+                break;
+            }
+            case AHKeychainQuerySynchronizationModeYes: {
+                value = @YES;
+                break;
+            }
+            case AHKeychainQuerySynchronizationModeAny: {
+                value = (__bridge id)(kSecAttrSynchronizableAny);
+                break;
+            }
         }
 
         [query setObject:value forKey:(__bridge id)(kSecAttrSynchronizable)];
@@ -668,27 +680,27 @@ NSString *normalizedName(NSString *name)
 {
     NSString *message = nil;
     switch (code) {
-    case kAHKeychainErrKeychainAlreadyExists:
-        message = @"Cannot create keychain at that path, one already exists";
-        break;
-    case kAHKeychainErrMissingKey:
-        message = @"Setting keychain password requires both account and service name";
-        break;
-    case kAHKeychainErrNoPasswordGiven:
-        message = @"No password was supplied for changing the keychain password";
-        break;
-    case kAHKeychainErrCouldNotCreateAccess:
-        message = @"Could Not create proper access for the keychain item";
-        break;
-    case kAHKeychainErrCannotDeleteSystemKeychain:
-        message = @"The removal of the system keychain is not allowed";
-        break;
-    case kAHKeychainErrCannotDeleteDefaultLoginKeychain:
-        message = @"The removal of the default login keychain is not allowed";
-        break;
-    default:
-        message = (__bridge_transfer NSString *)SecCopyErrorMessageString(code, NULL);
-        break;
+        case kAHKeychainErrKeychainAlreadyExists:
+            message = @"Cannot create keychain at that path, one already exists";
+            break;
+        case kAHKeychainErrMissingKey:
+            message = @"Setting keychain password requires both account and service name";
+            break;
+        case kAHKeychainErrNoPasswordGiven:
+            message = @"No password was supplied for changing the keychain password";
+            break;
+        case kAHKeychainErrCouldNotCreateAccess:
+            message = @"Could Not create proper access for the keychain item";
+            break;
+        case kAHKeychainErrCannotDeleteSystemKeychain:
+            message = @"The removal of the system keychain is not allowed";
+            break;
+        case kAHKeychainErrCannotDeleteDefaultLoginKeychain:
+            message = @"The removal of the default login keychain is not allowed";
+            break;
+        default:
+            message = (__bridge_transfer NSString *)SecCopyErrorMessageString(code, NULL);
+            break;
     }
     return message;
 }
@@ -718,5 +730,11 @@ NSString *normalizedName(NSString *name)
                                  userInfo:userInfo];
     return NO;
 }
+
++ (BOOL)keychainExistsAtPath:(NSString *)path {
+    path = normalizedName(path);
+    return [[NSFileManager defaultManager] fileExistsAtPath:[path stringByExpandingTildeInPath]];
+}
+
 
 @end
